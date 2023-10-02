@@ -1,0 +1,90 @@
+body {
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.4),
+      rgba(0, 0, 0, 0.4)
+    ),
+    url(./wallpaper.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  background-repeat: no-repeat;
+
+  width: 100%;
+  height: 100vh; /* 100% of the viewport height */
+  color: white; /* Text color */
+}
+
+.container {
+  width: inherit;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+}
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
+.right {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.right-content {
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
+  font-weight: bolder;
+}
+.left {
+  padding: 20px;
+}
+.buttons {
+  display: flex;
+  gap: 15px;
+  padding: 10px;
+}
+.buttons > button {
+  outline: none;
+  background: inherit;
+  color: inherit;
+  border: none;
+  padding: 10px;
+}
+input {
+  outline: none;
+  color: white;
+  background: inherit;
+  border: white;
+  font-size: larger;
+  text-align: center;
+}
+input[type="submit"] {
+  border: 2px solid white;
+}
+input[type="submit"]:active {
+  border: 4px solid white;
+}
+.buttons > button:hover {
+  cursor: pointer;
+}
+
+.description {
+  font-size: 2em;
+}
+.name {
+  font-size: 1em;
+}
+.localTime {
+  font-size: 1em;
+}
+.metrics {
+  font-size: 0.7em;
+}
+.temperature {
+  font-size: 3em;
+}
