@@ -108,6 +108,15 @@ async function leftInfo(weatherData, measurementSystem) {
       weatherData.forecast.forecastday[0].day.daily_chance_of_rain + "%";
   }
 }
+
+async function forecastInfo(weatherData, measurementSystem) {
+  //2 diaforetika render ena gia daily ena gia hourly
+  //loopa 3 meres to array
+  //poia mera einai
+  //temperature
+  //feelslike mikrotero
+  //kai eikona
+}
 async function render(city, measurementSystem) {
   let weatherData;
   try {
@@ -118,5 +127,6 @@ async function render(city, measurementSystem) {
   console.log(weatherData);
   mainInfo(weatherData, measurementSystem);
   leftInfo(weatherData, measurementSystem);
+  forecastInfo(weatherData, measurementSystem);
 }
 render(city, "metrics");
