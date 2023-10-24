@@ -25,18 +25,12 @@ const form = document.getElementById("cityForm");
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   city = Object.fromEntries(new FormData(e.target).entries());
-  render(city.cityName);
+  render(city.cityName, "metrics");
+  form.reset();
 });
 
-async function mainInfo(city) {
-  let weatherData;
-  try {
-    weatherData = await getWeather(city);
-  } catch (error) {
-    console.log("There was an error", error);
-  }
+async function mainInfo(weatherData, measurementSystem) {
   if (weatherData != false) {
-    console.log(weatherData);
     const right_content = document.querySelector(".right-content");
     right_content.querySelectorAll("*").forEach((n) => n.remove());
     const description = document.createElement("div");
@@ -47,16 +41,40 @@ async function mainInfo(city) {
     name.textContent = weatherData.location.name;
     name.classList.add("name");
     const localTime = document.createElement("div");
-    localTime.textContent = weatherData.location.localtime;
+    const localDate = new Date(weatherData.location.localtime);
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+
+    localTime.textContent =
+      localDate.toLocaleDateString(undefined, options) +
+      "\n" +
+      localDate.toLocaleTimeString("en-US");
     localTime.classList.add("localTime");
     const temperature = document.createElement("div");
-    temperature.textContent = weatherData.current.temp_c + "°C";
+    const metrics = document.createElement("div");
+    if (measurementSystem == "metrics") {
+      temperature.textContent = weatherData.current.temp_c + "°C";
+      metrics.textContent = "Display °F";
+    } else {
+      temperature.textContent = weatherData.current.temp_f + "°F";
+      metrics.textContent = "Display °C";
+    }
+    metrics.addEventListener("click", () => {
+      if (measurementSystem == "metrics") {
+        render(weatherData.location.name, "ImperialSystem");
+      } else {
+        render(weatherData.location.name, "metrics");
+      }
+    });
     temperature.classList.add("temperature");
 
-    const metrics = document.createElement("div");
-    metrics.textContent = "Display °F";
     metrics.classList.add("metrics");
     const img = document.createElement("img");
+    img.classList.add("square");
 
     img.src = "https:" + weatherData.current.condition.icon;
     right_content.appendChild(description);
@@ -67,7 +85,38 @@ async function mainInfo(city) {
     right_content.appendChild(img);
   }
 }
-function render(city) {
-  mainInfo(city);
+
+async function leftInfo(weatherData, measurementSystem) {
+  if (weatherData != false) {
+    const left = document.querySelector(".left");
+    //left.querySelectorAll("*").forEach((n) => n.remove());
+
+    const feel = document.querySelector(".feel");
+    const windSpeed = document.querySelector(".windSpeed");
+    if (measurementSystem == "metrics") {
+      feel.textContent = weatherData.current.feelslike_c + " °C";
+      windSpeed.textContent = weatherData.current.wind_kph + " km/h";
+    } else {
+      feel.textContent = weatherData.current.feelslike_f + " °F";
+      windSpeed.textContent = weatherData.current.wind_mph + " mph";
+    }
+    const humidity = document.querySelector(".humidity");
+
+    humidity.textContent = weatherData.current.humidity + "%";
+    const chanceOfRain = document.querySelector(".chanceOfRain");
+    chanceOfRain.textContent =
+      weatherData.forecast.forecastday[0].day.daily_chance_of_rain + "%";
+  }
 }
-render(city);
+async function render(city, measurementSystem) {
+  let weatherData;
+  try {
+    weatherData = await getWeather(city);
+  } catch (error) {
+    console.log("There was an error", error);
+  }
+  console.log(weatherData);
+  mainInfo(weatherData, measurementSystem);
+  leftInfo(weatherData, measurementSystem);
+}
+render(city, "metrics");

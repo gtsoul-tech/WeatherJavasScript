@@ -63,6 +63,12 @@ input {
   font-size: larger;
   text-align: center;
 }
+
+input[type="text"] {
+  width: 150px;
+  border-bottom: 2px solid white;
+}
+
 input[type="submit"] {
   border: 2px solid white;
 }
@@ -87,4 +93,21 @@ input[type="submit"]:active {
 }
 .temperature {
   font-size: 3em;
+}
+.square {
+  width: 128px;
+  height: 128px;
+}
+
+.weatherIcons {
+  width: 30px;
+  height: 30px;
+}
+.weatherSquare {
+  padding: 20px;
+  display: flex;
+  gap: 10px;
+}
+.subtitle {
+  padding-bottom: 10px;
 }
