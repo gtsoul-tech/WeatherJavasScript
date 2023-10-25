@@ -217,7 +217,7 @@ async function render(city, measurementSystem, which) {
   } catch (error) {
     console.log("There was an error", error);
   }
-  console.log(weatherData);
+  //console.log(weatherData);
   mainInfo(weatherData, measurementSystem);
   leftInfo(weatherData, measurementSystem);
   if (which == "daily") {
